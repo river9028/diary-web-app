@@ -1,31 +1,57 @@
-import React, { useContext, useState } from 'react';
-import { FaWrench, FaRegTrashAlt } from 'react-icons/fa';
-import { useParams } from 'react-router';
-import Detail from '../components/detail';
-import { Header } from '../containers';
+import React, { useContext } from 'react';
+import { FaWrench, FaRegTrashAlt, FaPen } from 'react-icons/fa';
+import { useHistory, useParams } from 'react-router';
+import { RiArrowGoBackFill } from 'react-icons/ri';
+import { Detail, Header } from '../components';
 import { FirebaseContext } from '../context';
 import { useContent } from '../hooks';
-import { Diary } from '../types/type';
+import * as ROUTES from '../constants/routes';
 
 const DiaryDetail = () => {
+  const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const { firebase } = useContext(FirebaseContext);
 
-  const { diary } = useContent(id);
+  const { diary, remove } = useContent(id);
 
   return (
     <>
-      <Header />
+      <Header>
+        <Header.Group handleClick={() => history.goBack()}>
+          <RiArrowGoBackFill />
+        </Header.Group>
+        <Header.Group
+          handleClick={() => {
+            history.push(ROUTES.HOME);
+          }}
+        >
+          Diary
+        </Header.Group>
+        <Header.Group
+          handleClick={() => {
+            history.push(ROUTES.WRITE);
+          }}
+        >
+          <FaPen />
+        </Header.Group>
+      </Header>
 
       {diary && (
         <Detail>
           <Detail.Group>
             <Detail.Title>{diary.title}</Detail.Title>
             <div>
-              <Detail.Button>
+              <Detail.Button handleClick={() => history.push(`${ROUTES.EDIT}/${id}`)}>
                 <FaWrench />
               </Detail.Button>
-              <Detail.Button>
+              <Detail.Button
+                handleClick={() => {
+                  const confirmMsg = window.confirm('삭제하시겠어요?');
+                  if (confirmMsg) {
+                    remove();
+                    history.push(ROUTES.HOME);
+                  }
+                }}
+              >
                 <FaRegTrashAlt />
               </Detail.Button>
             </div>

@@ -45,7 +45,7 @@ export const Group = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  transition: all 0.15s ease;
   &:focus {
     outline: 0;
   }

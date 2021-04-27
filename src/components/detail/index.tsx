@@ -9,7 +9,7 @@ type DetailType = {
   Tag: React.FC;
   TagGroup: React.FC;
   Image: React.FC;
-  Button: React.FC;
+  Button: React.FC<{ handleClick: () => void }>;
 };
 
 const Detail: React.FC & DetailType = ({ children, ...restProps }) => {
@@ -55,8 +55,12 @@ const DetailImage: React.FC = ({ children, ...restProps }) => {
 };
 Detail.Image = DetailImage;
 
-const DetailButton: React.FC = ({ children, ...restProps }) => {
-  return <Button {...restProps}>{children}</Button>;
+const DetailButton: React.FC<{ handleClick: () => void }> = ({ handleClick, children, ...restProps }) => {
+  return (
+    <Button onClick={handleClick} {...restProps}>
+      {children}
+    </Button>
+  );
 };
 Detail.Button = DetailButton;
 

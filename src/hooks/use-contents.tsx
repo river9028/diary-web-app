@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { FirebaseContext } from '../context/firebase';
 import { Diary } from '../types/type';
 
-export default function useContents(target: string) {
+export default function useContents(target: string, start: Date, end: Date) {
   const [content, setContent] = useState<Diary[]>([]);
   const { firebase } = useContext(FirebaseContext);
 
@@ -10,6 +10,8 @@ export default function useContents(target: string) {
     firebase
       ?.firestore()
       .collection(target)
+      .where('date', '>=', start)
+      .where('date', '<=', end)
       .orderBy('date')
       .get()
       .then((snapshot) => {
@@ -25,7 +27,7 @@ export default function useContents(target: string) {
       .catch((error) => {
         console.log(error.message);
       });
-  }, []);
+  }, [start, end]);
 
   return { [target]: content };
 }

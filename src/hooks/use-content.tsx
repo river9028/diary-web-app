@@ -7,14 +7,27 @@ export default function useContent(docId: string) {
   const [content, setContent] = useState<Diary>();
   const { firebase } = useContext(FirebaseContext);
 
+  const remove = () => {
+    firebase?.firestore().doc(`diary/${docId}`).delete();
+  };
+
+  const update = (eidtedDiary: Diary) => {
+    const { title, contents, tags, file, image } = eidtedDiary;
+    firebase?.firestore().doc(`diary/${docId}`).update({
+      title,
+      contents,
+      tags,
+      file,
+      image,
+    });
+  };
+
   useEffect(() => {
     firebase
       ?.firestore()
       .doc(`diary/${docId}`)
       .get()
       .then((snapshot) => {
-        console.log(snapshot.data());
-
         const currentDate = snapshot.data() as firebase.firestore.DocumentData;
         setContent({
           ...(currentDate as Diary),
@@ -27,5 +40,5 @@ export default function useContent(docId: string) {
       });
   }, []);
 
-  return { diary: content };
+  return { diary: content, remove, update };
 }

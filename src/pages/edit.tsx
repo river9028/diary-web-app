@@ -1,32 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { FaPen } from 'react-icons/fa';
 import { RiArrowGoBackFill } from 'react-icons/ri';
 import { Form, Header } from '../components';
 import { Diary } from '../types/type';
 import { FirebaseContext } from '../context/firebase';
 import * as ROUTES from '../constants/routes';
+import { useContent } from '../hooks';
 
 const Write = () => {
+  const { id } = useParams<{ id: string }>();
+  const { diary, update } = useContent(id);
+
   const history = useHistory();
-  const [form, setForm] = useState<{
-    title: string;
-    contents: string;
-    tags: string[];
-    image: string;
-    file: string;
-  }>({
+  const [form, setForm] = useState<Diary>({
+    id: '',
     title: '',
+    date: new Date(),
     contents: '',
     tags: [],
-    image: '',
     file: '',
+    image: '',
   });
   const [tag, setTag] = useState('');
-  const { title, contents, tags, image, file } = form;
 
+  const { title, contents, tags, image, file } = form;
   const { firebase } = useContext(FirebaseContext);
+
+  useEffect(() => {
+    if (diary) {
+      setForm(diary as Diary);
+    }
+  }, [diary]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -97,11 +103,11 @@ const Write = () => {
               file,
             };
             // console.log(newDiary);
-            firebase?.firestore().collection('diary').add(newDiary);
-            history.push(ROUTES.HOME);
+            update(newDiary);
+            history.push(`${ROUTES.DIARYDETAIL}/${id}`);
           }}
         >
-          Write
+          Edit
         </Form.Button>
       </Form>
     </>
