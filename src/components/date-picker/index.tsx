@@ -3,14 +3,14 @@ import DatePicker from 'react-datepicker';
 import { Container, Wrapper } from './styles/date-picker';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { DatePickerContext } from '../../context';
+import { FilterDiaryContext } from '../../context';
 
 const DatePickerComponent: React.FC<{ showDatePicker: boolean }> = ({
   showDatePicker,
   children,
   ...restProps
 }) => {
-  const { startDate, setStartDate, endDate, setEndDate } = useContext(DatePickerContext);
+  const { startDate, setStartDate, endDate, setEndDate } = useContext(FilterDiaryContext);
 
   return (
     <Wrapper showDatePicker={showDatePicker}>

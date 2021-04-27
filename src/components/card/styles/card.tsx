@@ -113,6 +113,10 @@ export const Tag = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  :hover {
+    font-weight: bold;
+  }
 `;
 
 export const Date = styled.p`

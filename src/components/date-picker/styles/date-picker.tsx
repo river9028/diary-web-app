@@ -19,7 +19,7 @@ export const Container = styled.div<{ showDatePicker: boolean }>`
   font-size: 1.414rem;
   line-height: 1.4em;
   background: #fff;
-  z-index: 1;
+  z-index: 2;
   user-select: none;
   position: absolute;
   top: 0;

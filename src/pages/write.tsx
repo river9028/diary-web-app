@@ -64,27 +64,39 @@ const Write = () => {
         <Form.Title handleChange={handleChange} value={title} placeholder='제목을 입력하세요' />
         <Form.Textarea handleChange={handleChange} value={contents} placeholder='내용을 입력하세요' />
 
-        {tags.map((tag) => (
-          <div>{tag}</div>
-        ))}
-        {tags.length < 4 && (
-          <Form.Tag
-            handlePressEnter={() => {
-              console.log('Enter press');
-              setForm({
-                ...form,
-                tags: tags.concat([tag]),
-              });
-              setTag('');
-            }}
-            handleChange={(e) => {
-              e.preventDefault();
-              setTag(e.target.value);
-            }}
-            value={tag}
-            placeholder='태그입력'
-          />
-        )}
+        <Form.TagWrapper>
+          {tags.map((tag) => (
+            <Form.Tag
+              handleClick={() => {
+                setForm({
+                  ...form,
+                  tags: tags.filter((item) => item !== tag),
+                });
+              }}
+            >
+              {tag}
+            </Form.Tag>
+          ))}
+
+          {tags.length < 4 && (
+            <Form.TagInput
+              handlePressEnter={() => {
+                console.log('Enter press');
+                setForm({
+                  ...form,
+                  tags: tags.concat([tag]),
+                });
+                setTag('');
+              }}
+              handleChange={(e) => {
+                e.preventDefault();
+                setTag(e.target.value);
+              }}
+              value={tag}
+              placeholder='태그입력'
+            />
+          )}
+        </Form.TagWrapper>
 
         <Form.Button
           handleClick={() => {

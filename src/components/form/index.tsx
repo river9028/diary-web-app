@@ -1,7 +1,7 @@
-import React from 'react';
-import { Wrapper, Container, Title, Tag, Textarea, Image, Button } from './styles/form';
+import React, { useEffect, useRef } from 'react';
+import { Wrapper, Container, Title, TagWrapper, Tag, TagInput, Textarea, Image, Button } from './styles/form';
 
-type ButtonProps = {
+type ClickProps = {
   handleClick: () => void;
 };
 
@@ -13,10 +13,12 @@ type InputProps = {
 
 type FormType = {
   Title: React.FC<InputProps>;
-  Tag: React.FC<InputProps & { handlePressEnter: () => void }>;
+  TagInput: React.FC<InputProps & { handlePressEnter: () => void }>;
   Textarea: React.FC<InputProps>;
   Image: React.FC<{ src: string }>;
-  Button: React.FC<ButtonProps>;
+  Button: React.FC<ClickProps>;
+  Tag: React.FC<ClickProps>;
+  TagWrapper: React.FC;
 };
 
 const Form: React.FC & FormType = ({ children, ...restProps }) => {
@@ -39,7 +41,7 @@ const FormTitle: React.FC<InputProps> = ({ value, handleChange, placeholder, chi
 };
 Form.Title = FormTitle;
 
-const FormTag: React.FC<InputProps & { handlePressEnter: () => void }> = ({
+const FormTagInput: React.FC<InputProps & { handlePressEnter: () => void }> = ({
   value,
   handlePressEnter,
   handleChange,
@@ -48,7 +50,7 @@ const FormTag: React.FC<InputProps & { handlePressEnter: () => void }> = ({
   ...restProps
 }) => {
   return (
-    <Tag
+    <TagInput
       name='tag'
       onKeyPress={(e) => {
         if (e.key === 'Enter') {
@@ -61,10 +63,10 @@ const FormTag: React.FC<InputProps & { handlePressEnter: () => void }> = ({
       {...restProps}
     >
       {children}
-    </Tag>
+    </TagInput>
   );
 };
-Form.Tag = FormTag;
+Form.TagInput = FormTagInput;
 
 const FormTextarea: React.FC<InputProps> = ({ value, handleChange, placeholder, children, ...restProps }) => {
   return (
@@ -91,7 +93,7 @@ const FormImage: React.FC<{ src: string }> = ({ src, children, ...restProps }) =
 };
 Form.Image = FormImage;
 
-const FormButton: React.FC<ButtonProps> = ({ handleClick, children, ...restProps }) => {
+const FormButton: React.FC<ClickProps> = ({ handleClick, children, ...restProps }) => {
   return (
     <Button type='button' onClick={handleClick} {...restProps}>
       {children}
@@ -99,5 +101,36 @@ const FormButton: React.FC<ButtonProps> = ({ handleClick, children, ...restProps
   );
 };
 Form.Button = FormButton;
+
+const FormTag: React.FC<ClickProps> = ({ handleClick, children, ...restProps }) => {
+  return (
+    <Tag onClick={handleClick} {...restProps}>
+      {children}
+    </Tag>
+  );
+};
+Form.Tag = FormTag;
+
+const FormTagWrapper: React.FC = ({ children, ...restProps }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (ref.current !== null) {
+      ref.current.addEventListener('wheel', (e: WheelEvent) => {
+        e.preventDefault();
+        if (ref.current !== null) {
+          ref.current.scrollLeft += e.deltaY;
+        }
+      });
+    }
+  }, [ref]);
+
+  return (
+    <TagWrapper ref={ref} {...restProps}>
+      {children}
+    </TagWrapper>
+  );
+};
+Form.TagWrapper = FormTagWrapper;
 
 export default Form;

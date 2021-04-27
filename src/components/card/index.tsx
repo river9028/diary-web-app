@@ -1,13 +1,15 @@
 import React from 'react';
 import { Wrapper, Container, Group, Title, Info, Img, Text, Tag, Date } from './styles/card';
 
+type TagPropsType = { handleClick: (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => void };
+
 type CardType = {
   Group: React.FC<{ className?: string }>;
   Info: React.FC;
   Title: React.FC;
   Img: React.FC<{ src: string }>;
   Text: React.FC;
-  Tag: React.FC;
+  Tag: React.FC<TagPropsType>;
   Date: React.FC;
 };
 
@@ -50,8 +52,12 @@ const CardImg: React.FC<{ src: string }> = ({ src, children, ...restProps }) => 
 };
 Card.Img = CardImg;
 
-const CardTag: React.FC = ({ children, ...restProps }) => {
-  return <Tag {...restProps}>{children}</Tag>;
+const CardTag: React.FC<TagPropsType> = ({ handleClick, children, ...restProps }) => {
+  return (
+    <Tag onClick={handleClick} {...restProps}>
+      {children}
+    </Tag>
+  );
 };
 Card.Tag = CardTag;
 

@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { Card } from '../components';
 import * as ROUTES from '../constants/routes';
-import { DatePickerContext } from '../context';
+import { FilterDiaryContext } from '../context';
 import { useContents } from '../hooks';
 
 const Cards = () => {
-  const { startDate, endDate } = useContext(DatePickerContext);
-  const { diary } = useContents('diary', startDate, endDate);
-
+  const { startDate, endDate, selectTags, setSelectTags } = useContext(FilterDiaryContext);
+  const { diary } = useContents('diary', startDate, endDate, selectTags);
+  console.log('diary: ', diary);
   const history = useHistory();
 
   return (
@@ -32,7 +32,16 @@ const Cards = () => {
 
             <Card.Info>
               {tags.map((tag) => (
-                <Card.Tag>{tag}</Card.Tag>
+                <Card.Tag
+                  handleClick={(e) => {
+                    e.stopPropagation();
+                    setSelectTags((prev) => {
+                      return [...new Set(prev.concat(tag))];
+                    });
+                  }}
+                >
+                  {tag}
+                </Card.Tag>
               ))}
               &nbsp;
               <Card.Date>{date.toLocaleString()}</Card.Date>

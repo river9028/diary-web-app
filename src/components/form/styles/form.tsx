@@ -63,7 +63,7 @@ export const Textarea = styled(TextareaAutosize)`
   }
 `;
 
-export const Tag = styled.input`
+export const TagInput = styled.input`
   /* width: 100%; */
   box-sizing: border-box;
   border: 0;
@@ -104,5 +104,41 @@ export const Button = styled.button`
     left: unset; */
     left: 50%;
     transform: translate(-50%, 0);
+  }
+`;
+
+export const TagWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  overflow: scroll;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const Tag = styled.div`
+  display: inline;
+  font-size: 13px;
+  line-height: 21px;
+  padding: 5px;
+  /* border: 1px solid black; */
+  background-color: #6bacce;
+  color: #fff;
+  border-radius: 5px;
+
+  :last-of-type {
+    margin-right: 5px;
+  }
+
+  &:hover {
+    color: #6bacce;
+    background-color: #fff;
+    border: 1px solid #6bacce;
+  }
+
+  & + & {
+    margin-left: 5px;
   }
 `;
