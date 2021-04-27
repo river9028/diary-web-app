@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { FaWrench, FaRegTrashAlt, FaPen } from 'react-icons/fa';
 import { useHistory, useParams } from 'react-router';
 import { RiArrowGoBackFill } from 'react-icons/ri';
 import { Detail, Header } from '../components';
-import { FirebaseContext } from '../context';
 import { useContent } from '../hooks';
 import * as ROUTES from '../constants/routes';
 
-const DiaryDetail = () => {
+const DiaryDetail = (): JSX.Element => {
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
 
@@ -45,6 +44,7 @@ const DiaryDetail = () => {
               </Detail.Button>
               <Detail.Button
                 handleClick={() => {
+                  // eslint-disable-next-line no-alert
                   const confirmMsg = window.confirm('삭제하시겠어요?');
                   if (confirmMsg) {
                     remove();

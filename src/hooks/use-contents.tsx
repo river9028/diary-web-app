@@ -50,6 +50,7 @@ export default function useContents(target: string, start: Date, end: Date, tags
         setContent(allContent.reverse());
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error.message);
       });
   }, [start, end, tags]);

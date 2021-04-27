@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { FaPen } from 'react-icons/fa';
 import { RiArrowGoBackFill } from 'react-icons/ri';
 import { Form, Header } from '../components';
 import { Diary } from '../types/type';
-import { FirebaseContext } from '../context/firebase';
 import * as ROUTES from '../constants/routes';
 import { useContent } from '../hooks';
 
@@ -26,7 +24,6 @@ const Write = () => {
   const [tag, setTag] = useState('');
 
   const { title, contents, tags, image, file } = form;
-  const { firebase } = useContext(FirebaseContext);
 
   useEffect(() => {
     if (diary) {
@@ -87,7 +84,7 @@ const Write = () => {
           {tags.length < 4 && (
             <Form.TagInput
               handlePressEnter={() => {
-                console.log('Enter press');
+                // console.log('Enter press');
                 setForm({
                   ...form,
                   tags: tags.concat([tag]),

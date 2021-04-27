@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router';
 import { FaPen } from 'react-icons/fa';
 import { RiArrowGoBackFill } from 'react-icons/ri';
@@ -81,7 +80,7 @@ const Write = () => {
           {tags.length < 4 && (
             <Form.TagInput
               handlePressEnter={() => {
-                console.log('Enter press');
+                // console.log('Enter press');
                 setForm({
                   ...form,
                   tags: tags.concat([tag]),
