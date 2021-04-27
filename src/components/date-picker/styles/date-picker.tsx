@@ -23,10 +23,12 @@ export const Container = styled.div<{ showDatePicker: boolean }>`
   user-select: none;
   position: absolute;
   top: 0;
+  opacity: 0;
 
   ${({ showDatePicker }) =>
     showDatePicker &&
     css`
+      opacity: 1;
       transform: translate(0, 60px);
       transition: all 0.5s ease;
       height: 60px;
