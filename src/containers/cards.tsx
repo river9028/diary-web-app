@@ -8,7 +8,7 @@ import { useContents } from '../hooks';
 const Cards = () => {
   const { startDate, endDate, selectTags, setSelectTags } = useContext(FilterDiaryContext);
   const { diary } = useContents('diary', startDate, endDate, selectTags);
-  console.log('diary: ', diary);
+  // console.log('diary: ', diary);
   const history = useHistory();
 
   return (

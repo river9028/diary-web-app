@@ -6,6 +6,8 @@ import * as ROUTES from '../constants/routes';
 
 const HeaderContainer = () => {
   const history = useHistory();
+  // console.log('history.location', history.location.pathname);
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   return (
     <>
@@ -15,8 +17,10 @@ const HeaderContainer = () => {
         </Header.Group>
         <Header.Group
           handleClick={() => {
+            if (history.location.pathname === ROUTES.HOME) {
+              history.go(0);
+            }
             history.push(ROUTES.HOME);
-            history.go(0);
           }}
         >
           Diary

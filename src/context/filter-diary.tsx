@@ -1,5 +1,4 @@
 import { createContext } from 'react';
-import Firebase from 'firebase/app';
 
 export const FilterDiaryContext = createContext<{
   startDate: Date;

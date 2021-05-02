@@ -7,16 +7,6 @@ export default function useContents(target: string, start: Date, end: Date, tags
   const [content, setContent] = useState<Diary[]>([]);
   const { firebase } = useContext(FirebaseContext);
 
-  const fn = (
-    callback: () => firebase.firestore.Query<firebase.firestore.DocumentData> | undefined,
-    tags: string[],
-  ) => {
-    if (tags.length !== 0) {
-      return callback()?.where('tags', 'array-contains-any', [...tags]);
-    }
-    return callback();
-  };
-
   useEffect(() => {
     const isTagsEmpty = (
       callback: () => firebase.firestore.Query<firebase.firestore.DocumentData> | undefined,
@@ -38,11 +28,30 @@ export default function useContents(target: string, start: Date, end: Date, tags
           .orderBy('date'),
       tags,
     )
+      // firebase
+      //   ?.firestore()
+      //   .collection(target)
+      //   .where('date', '>=', start)
+      //   .where('date', '<=', end)
+      //   .orderBy('date')
+      //   .withConverter({
+      //     toFirestore(data: Diary): firebase.firestore.DocumentData {
+      //       return data;
+      //     },
+      //     fromFirestore(
+      //       snapshot: firebase.firestore.QueryDocumentSnapshot,
+      //       options: firebase.firestore.SnapshotOptions,
+      //     ): Diary {
+      //       const data = snapshot.data(options);
+      //       return { ...data, date: data.date.toDate() } as Diary;
+      //     },
+      //   })
+
       ?.get()
       .then((snapshot) => {
         const allContent = snapshot.docs.map((contentObj) => ({
           ...(contentObj.data() as Diary),
-          date: contentObj.data().date.toDate(),
+          // ...contentObj.data(),
           id: contentObj.id,
         }));
 

@@ -36,6 +36,7 @@ export default function useContent(docId: string) {
         });
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error.message);
       });
   }, []);

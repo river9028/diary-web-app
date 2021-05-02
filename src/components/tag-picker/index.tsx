@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Container, Wrapper, Tag } from './styles/tag-picker';
 
 import 'react-datepicker/dist/react-datepicker.css';

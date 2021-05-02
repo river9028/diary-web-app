@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import TextareaAutosize from 'react-textarea-autosize';
 
 export const Wrapper = styled.div`
@@ -70,9 +70,9 @@ export const TagInput = styled.input`
   outline: 0 none;
   padding: 0;
 
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   @media (min-width: 800px) {
-    padding-bottom: 30px;
+    /* padding-bottom: 30px; */
   }
 `;
 
@@ -110,6 +110,7 @@ export const Button = styled.button`
 export const TagWrapper = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   overflow: scroll;
   white-space: nowrap;
   -ms-overflow-style: none;

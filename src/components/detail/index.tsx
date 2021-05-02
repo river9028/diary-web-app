@@ -24,6 +24,7 @@ const DetailTitle: React.FC = ({ children, ...restProps }) => {
   return <Title {...restProps}>{children}</Title>;
 };
 Detail.Title = DetailTitle;
+Detail.Title = Title;
 
 const DetailGroup: React.FC = ({ children, ...restProps }) => {
   return <Group {...restProps}>{children}</Group>;

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -23,10 +23,12 @@ export const Container = styled.div`
 
 export const Group = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
+  /* display: flex; */
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  & > div {
+    float: right;
+  }
   @media (max-width: 350px) {
     display: block;
   }
@@ -35,7 +37,7 @@ export const Group = styled.div`
 export const Title = styled.h2`
   margin: 0;
   padding-bottom: 10px;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 `;
 
 export const Date = styled.p``;
@@ -52,6 +54,7 @@ export const TagGroup = styled.div`
 
 export const Tag = styled.p`
   margin-left: 10px;
+  color: rgb(107, 172, 206);
 
   &:first-of-type {
     margin-left: 0px;
@@ -70,11 +73,11 @@ export const Button = styled.button`
   cursor: pointer;
   white-space: nowrap;
 
-  width: 1em;
+  /* width: 1em; */
   font-size: 1em;
 
   @media (min-width: 800px) {
-    width: 1.5em;
+    /* width: 1.5em; */
     font-size: 1.5em;
   }
 
