@@ -64,7 +64,24 @@ export const Tag = styled.p`
   }
 `;
 
-export const Image = styled.div``;
+export const Image = styled.div`
+  display: flex;
+  padding-bottom: 20px;
+
+  img {
+    max-width: 800px;
+    width: calc(100vw - 60px);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* position: fixed; */
+    z-index: 9;
+    font-size: 1.414rem;
+    line-height: 1.4em;
+    background: #fff;
+  }
+`;
 
 export const Button = styled.button`
   border: 0;

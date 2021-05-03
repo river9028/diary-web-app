@@ -33,9 +33,10 @@ const DiaryDetail = (): JSX.Element => {
           <FaPen />
         </Header.Group>
       </Header>
-
       {diary && (
         <Detail>
+          <Detail.Image src={diary.image} />
+
           <Detail.Group>
             <Detail.Title>{diary.title}</Detail.Title>
             <div>
@@ -56,6 +57,7 @@ const DiaryDetail = (): JSX.Element => {
               </Detail.Button>
             </div>
           </Detail.Group>
+
           <Detail.Date>{diary.date.toLocaleString()}</Detail.Date>
           <Detail.Text>{diary.contents}</Detail.Text>
           <Detail.TagGroup>

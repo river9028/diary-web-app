@@ -8,7 +8,7 @@ type DetailType = {
   Text: React.FC;
   Tag: React.FC;
   TagGroup: React.FC;
-  Image: React.FC;
+  Image: React.FC<{ src: string | null }>;
   Button: React.FC<{ handleClick: () => void }>;
 };
 
@@ -51,8 +51,14 @@ const DetailTagGroup: React.FC = ({ children, ...restProps }) => {
 };
 Detail.TagGroup = DetailTagGroup;
 
-const DetailImage: React.FC = ({ children, ...restProps }) => {
-  return <Image {...restProps}>{children}</Image>;
+const DetailImage: React.FC<{ src: string | null }> = ({ src, children, ...restProps }) => {
+  if (!src) return <></>;
+  return (
+    <Image {...restProps}>
+      <img src={src} alt='' />
+      {children}
+    </Image>
+  );
 };
 Detail.Image = DetailImage;
 
