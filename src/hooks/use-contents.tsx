@@ -47,21 +47,21 @@ export default function useContents(target: string, start: Date, end: Date, tags
       //     },
       //   })
 
-      ?.get()
-      .then((snapshot) => {
-        const allContent = snapshot.docs.map((contentObj) => ({
-          ...(contentObj.data() as Diary),
-          // ...contentObj.data(),
-          date: contentObj.data().date.toDate(),
-          id: contentObj.id,
-        }));
+      ?.onSnapshot((snapshot) => {
+        try {
+          const allContent = snapshot.docs.map((contentObj) => ({
+            ...(contentObj.data() as Diary),
+            // ...contentObj.data(),
+            date: contentObj.data().date.toDate(),
+            id: contentObj.id,
+          }));
 
-        // console.log(allContent);
-        setContent(allContent.reverse());
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error.message);
+          // console.log(allContent);
+          setContent(allContent.reverse());
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error.message);
+        }
       });
   }, [start, end, tags]);
 
