@@ -7,7 +7,13 @@ export default function useContent(docId: string) {
   const [content, setContent] = useState<Diary>();
   const { firebase } = useContext(FirebaseContext);
 
-  const remove = () => {
+  const remove = (editedDiary: Diary) => {
+    const { image } = editedDiary;
+
+    if (image) {
+      firebase?.storage().refFromURL(image).delete();
+    }
+
     firebase?.firestore().doc(`diary/${docId}`).delete();
   };
 

@@ -76,14 +76,6 @@ export const TagInput = styled.input`
   }
 `;
 
-export const Image = styled.div<{ src: string }>`
-  width: 100%;
-  height: 200px;
-
-  background-image: ${({ src }) => `url(${src})`};
-  background-size: cover;
-`;
-
 export const Button = styled.button`
   display: flex;
   justify-content: center;
@@ -102,7 +94,7 @@ export const Button = styled.button`
     /* position: unset;
     bottom: unset;
     left: unset; */
-    left: 50%;
+    left: 50vw;
     transform: translate(-50%, 0);
   }
 `;
@@ -141,5 +133,56 @@ export const Tag = styled.div`
 
   & + & {
     margin-left: 5px;
+  }
+`;
+
+export const FileInput = styled.input``;
+
+export const FileButton = styled.button`
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+  padding: 30px;
+  font-size: 30px;
+  box-sizing: border-box;
+`;
+
+export const Image = styled.img`
+  position: absolute;
+  top: 0;
+  width: inherit;
+  height: 100%;
+`;
+
+export const FileWrapper = styled.div`
+  position: relative;
+  margin: 20px 0;
+  border: 5px solid #000000;
+  width: 200px;
+  padding-top: 200px;
+  font-size: 30px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  :hover {
+    ${Image} {
+      opacity: 0.5;
+    }
+
+    ${FileButton} {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 99;
+    }
   }
 `;

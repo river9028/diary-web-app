@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
-import { FaPen } from 'react-icons/fa';
+import { FaPlus, FaPen, FaRegTrashAlt } from 'react-icons/fa';
 import { RiArrowGoBackFill } from 'react-icons/ri';
+import { v4 as uuid4 } from 'uuid';
 import { Form, Header } from '../components';
 import { Diary } from '../types/type';
 import { FirebaseContext } from '../context/firebase';
@@ -9,21 +10,17 @@ import * as ROUTES from '../constants/routes';
 
 const Write = () => {
   const history = useHistory();
-  const [form, setForm] = useState<{
-    title: string;
-    contents: string;
-    tags: string[];
-    image: string;
-    file: string;
-  }>({
+  const [form, setForm] = useState<Diary>({
+    date: new Date(),
     title: '',
     contents: '',
     tags: [],
-    image: '',
-    file: '',
+    image: null,
+    file: null,
   });
   const [tag, setTag] = useState('');
-  const { title, contents, tags, image, file } = form;
+  const [attachment, setAttachment] = useState<string | null>(null);
+  const { title, date, contents, tags, image, file } = form;
 
   const { firebase } = useContext(FirebaseContext);
 
@@ -34,6 +31,27 @@ const Write = () => {
       [name]: value,
     });
   };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log('File Change');
+    const {
+      target: { files },
+    } = e;
+    if (files !== null) {
+      const theFile = files[0];
+      const reader = new FileReader();
+      reader.onload = (finishEvent) => {
+        // console.log(finishEvent);
+        const { result } = finishEvent.target!;
+        if (typeof result === 'string') {
+          setAttachment(result);
+        }
+      };
+      reader.readAsDataURL(theFile);
+    }
+  };
+
+  const handleClearAttachment = () => setAttachment(null);
 
   return (
     <>
@@ -62,6 +80,16 @@ const Write = () => {
 
         <Form.Title handleChange={handleChange} value={title} placeholder='제목을 입력하세요' />
         <Form.Textarea handleChange={handleChange} value={contents} placeholder='내용을 입력하세요' />
+
+        <Form.FileWrapper hasAttachment={!!attachment}>
+          {attachment ? <Form.Image src={attachment} /> : <FaPlus />}
+          <Form.FileInput handleChange={handleFileChange} />
+          {attachment && (
+            <Form.FileButton handleClick={handleClearAttachment}>
+              <FaRegTrashAlt />
+            </Form.FileButton>
+          )}
+        </Form.FileWrapper>
 
         <Form.TagWrapper>
           {tags.map((tag) => (
@@ -98,13 +126,21 @@ const Write = () => {
         </Form.TagWrapper>
 
         <Form.Button
-          handleClick={() => {
+          handleClick={async () => {
+            let attachmentURL: string | null = null;
+
+            if (attachment) {
+              const fileRef = firebase?.storage().ref().child(`diary/${uuid4()}`);
+              const response = await fileRef?.putString(attachment, 'data_url');
+              attachmentURL = await response?.ref.getDownloadURL();
+            }
+
             const newDiary: Readonly<Diary> = {
-              date: new Date(),
+              date,
               title,
               contents,
               tags,
-              image,
+              image: attachmentURL,
               file,
             };
             // console.log(newDiary);

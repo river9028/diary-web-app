@@ -47,7 +47,7 @@ const DiaryDetail = (): JSX.Element => {
                   // eslint-disable-next-line no-alert
                   const confirmMsg = window.confirm('삭제하시겠어요?');
                   if (confirmMsg) {
-                    remove();
+                    remove(diary);
                     history.push(ROUTES.HOME);
                   }
                 }}

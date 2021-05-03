@@ -1,14 +1,27 @@
-import React, { useEffect, useRef } from 'react';
-import { Wrapper, Container, Title, TagWrapper, Tag, TagInput, Textarea, Image, Button } from './styles/form';
+import React, { Children, createContext, useContext, useEffect, useRef } from 'react';
+import {
+  Wrapper,
+  Container,
+  Title,
+  TagWrapper,
+  Tag,
+  TagInput,
+  Textarea,
+  Image,
+  Button,
+  FileInput,
+  FileWrapper,
+  FileButton,
+} from './styles/form';
 
 type ClickProps = {
   handleClick: () => void;
 };
 
 type InputProps = {
-  placeholder: string;
+  placeholder?: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  value: string;
+  value?: string;
 };
 
 type FormType = {
@@ -19,7 +32,16 @@ type FormType = {
   Button: React.FC<ClickProps>;
   Tag: React.FC<ClickProps>;
   TagWrapper: React.FC;
+  FileInput: React.FC<{ handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void }>;
+  FileWrapper: React.FC<{ hasAttachment: boolean }>;
+  FileButton: React.FC<ClickProps>;
 };
+
+const FileInputContext = createContext<{
+  fileInputRef: React.MutableRefObject<HTMLInputElement | null>;
+}>({
+  fileInputRef: { current: null },
+});
 
 const Form: React.FC & FormType = ({ children, ...restProps }) => {
   return (
@@ -84,15 +106,6 @@ const FormTextarea: React.FC<InputProps> = ({ value, handleChange, placeholder, 
 };
 Form.Textarea = FormTextarea;
 
-const FormImage: React.FC<{ src: string }> = ({ src, children, ...restProps }) => {
-  return (
-    <Image src={src} {...restProps}>
-      {children}
-    </Image>
-  );
-};
-Form.Image = FormImage;
-
 const FormButton: React.FC<ClickProps> = ({ handleClick, children, ...restProps }) => {
   return (
     <Button type='button' onClick={handleClick} {...restProps}>
@@ -132,5 +145,69 @@ const FormTagWrapper: React.FC = ({ children, ...restProps }) => {
   );
 };
 Form.TagWrapper = FormTagWrapper;
+
+const FormFileWrapper: React.FC<{ hasAttachment: boolean }> = ({ hasAttachment, children, ...restProps }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <FileInputContext.Provider value={{ fileInputRef }}>
+      <FileWrapper
+        onClick={() => {
+          if (!hasAttachment) {
+            fileInputRef.current?.click();
+          }
+        }}
+        {...restProps}
+      >
+        {children}
+      </FileWrapper>
+    </FileInputContext.Provider>
+  );
+};
+Form.FileWrapper = FormFileWrapper;
+
+const FormImage: React.FC<{ src: string }> = ({ src, children, ...restProps }) => {
+  return (
+    <Image src={src} {...restProps}>
+      {children}
+    </Image>
+  );
+};
+Form.Image = FormImage;
+
+const FormFileInput: React.FC<{ handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({
+  handleChange,
+  children,
+  ...restProps
+}) => {
+  const { fileInputRef } = useContext(FileInputContext);
+
+  return (
+    <FileInput hidden ref={fileInputRef} type='file' accept='image/*' onChange={handleChange} {...restProps}>
+      {children}
+    </FileInput>
+  );
+};
+Form.FileInput = FormFileInput;
+
+const FormFileButton: React.FC<ClickProps> = ({ handleClick, children, ...restProps }) => {
+  const { fileInputRef } = useContext(FileInputContext);
+  return (
+    <FileButton
+      type='button'
+      onClick={(e) => {
+        e.stopPropagation();
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        handleClick();
+      }}
+      {...restProps}
+    >
+      {children}
+    </FileButton>
+  );
+};
+Form.FileButton = FormFileButton;
 
 export default Form;

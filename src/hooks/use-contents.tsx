@@ -52,6 +52,7 @@ export default function useContents(target: string, start: Date, end: Date, tags
         const allContent = snapshot.docs.map((contentObj) => ({
           ...(contentObj.data() as Diary),
           // ...contentObj.data(),
+          date: contentObj.data().date.toDate(),
           id: contentObj.id,
         }));
 

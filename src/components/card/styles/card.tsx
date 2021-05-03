@@ -85,9 +85,13 @@ export const Text = styled.p`
 `;
 
 export const Img = styled.div`
-  width: 150px;
-  height: 150px;
   display: none;
+  padding: 5px;
+
+  img {
+    width: 150px;
+    height: 150px;
+  }
 
   @media (min-width: 800px) {
     display: flex;
