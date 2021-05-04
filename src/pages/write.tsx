@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router';
 import { FaPlus, FaPen, FaRegTrashAlt } from 'react-icons/fa';
 import { RiArrowGoBackFill } from 'react-icons/ri';
@@ -24,6 +24,13 @@ const Write = () => {
 
   const { firebase } = useContext(FirebaseContext);
 
+  const [hasTitle, setHasTitle] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (title.length > 0) {
+      setHasTitle(true);
+    }
+  }, [title]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm({
@@ -78,7 +85,12 @@ const Write = () => {
       <Form>
         {/* <Form.Image src='https://picsum.photos/700/100' /> */}
 
-        <Form.Title handleChange={handleChange} value={title} placeholder='제목을 입력하세요' />
+        <Form.Title
+          hasTitle={hasTitle}
+          handleChange={handleChange}
+          value={title}
+          placeholder='제목을 입력하세요'
+        />
         <Form.Textarea handleChange={handleChange} value={contents} placeholder='내용을 입력하세요' />
 
         <Form.FileWrapper hasAttachment={!!attachment}>
@@ -127,6 +139,11 @@ const Write = () => {
 
         <Form.Button
           handleClick={async () => {
+            if (title.length === 0) {
+              // console.log(titleRef);
+              setHasTitle(false);
+              return;
+            }
             let attachmentURL: string | null = null;
 
             if (attachment) {

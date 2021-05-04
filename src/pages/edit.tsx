@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { FaPen, FaPlus, FaRegTrashAlt } from 'react-icons/fa';
 import { RiArrowGoBackFill } from 'react-icons/ri';
@@ -29,6 +29,8 @@ const Edit = () => {
   const { title, contents, tags, image, file } = form;
 
   const { firebase } = useContext(FirebaseContext);
+
+  const [hasTitle, setHasTitle] = useState<boolean>(false);
 
   useEffect(() => {
     if (diary) {
@@ -105,7 +107,12 @@ const Edit = () => {
       <Form>
         {/* <Form.Image src='https://picsum.photos/700/100' /> */}
 
-        <Form.Title handleChange={handleChange} value={title} placeholder='제목을 입력하세요' />
+        <Form.Title
+          hasTitle={hasTitle}
+          handleChange={handleChange}
+          value={title}
+          placeholder='제목을 입력하세요'
+        />
         <Form.Textarea handleChange={handleChange} value={contents} placeholder='내용을 입력하세요' />
 
         <Form.FileWrapper hasAttachment={!!attachment}>

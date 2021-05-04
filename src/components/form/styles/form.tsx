@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import TextareaAutosize from 'react-textarea-autosize';
 
 export const Wrapper = styled.div`
@@ -22,7 +22,7 @@ export const Container = styled.form`
   align-items: baseline;
 `;
 
-export const Title = styled.div`
+export const Title = styled.div<{ hasTitle: boolean }>`
   box-sizing: border-box;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -47,6 +47,14 @@ export const Title = styled.div`
     padding-bottom: 30px;
     font-size: 30px;
   }
+
+  ${({ hasTitle }) =>
+    !hasTitle &&
+    css`
+      input::placeholder {
+        color: red;
+      }
+    `}
 `;
 
 export const Textarea = styled(TextareaAutosize)`

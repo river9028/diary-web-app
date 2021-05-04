@@ -25,7 +25,7 @@ type InputProps = {
 };
 
 type FormType = {
-  Title: React.FC<InputProps>;
+  Title: React.FC<InputProps & { hasTitle: boolean }>;
   TagInput: React.FC<InputProps & { handlePressEnter: () => void }>;
   Textarea: React.FC<InputProps>;
   Image: React.FC<{ src: string }>;
@@ -53,9 +53,16 @@ const Form: React.FC & FormType = ({ children, ...restProps }) => {
   );
 };
 
-const FormTitle: React.FC<InputProps> = ({ value, handleChange, placeholder, children, ...restProps }) => {
+const FormTitle: React.FC<InputProps & { hasTitle: boolean }> = ({
+  hasTitle,
+  value,
+  handleChange,
+  placeholder,
+  children,
+  ...restProps
+}) => {
   return (
-    <Title {...restProps}>
+    <Title hasTitle={hasTitle} {...restProps}>
       <input name='title' value={value} onChange={handleChange} placeholder={placeholder} />
       {children}
     </Title>
