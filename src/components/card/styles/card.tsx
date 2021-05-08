@@ -91,6 +91,10 @@ export const Img = styled.div`
   img {
     width: 150px;
     height: 150px;
+    :hover {
+      transform: scale(1.1);
+      transition: all 0.3s ease;
+    }
   }
 
   @media (min-width: 800px) {

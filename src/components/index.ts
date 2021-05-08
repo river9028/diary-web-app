@@ -4,3 +4,4 @@ export { default as Form } from './form';
 export { default as Detail } from './detail';
 export { default as DatePicker } from './date-picker';
 export { default as TagPicker } from './tag-picker';
+export { default as AuthForm } from './auth-form';
