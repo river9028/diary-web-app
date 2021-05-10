@@ -11,28 +11,31 @@ function App() {
   return (
     <>
       <Router>
-        <Switch>
-          <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_IN}>
-            <SignIn />
-          </IsUserRedirect>
-          <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_UP}>
-            <SignUp />
-          </IsUserRedirect>
+        <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_IN}>
+          <SignIn />
+        </IsUserRedirect>
 
-          <Route exact path={`${ROUTES.DIARYDETAIL}/:id`}>
-            <DiaryDetail />
-          </Route>
-          <Route exact path={`${ROUTES.EDIT}/:id`}>
-            <Edit />
-          </Route>
-          <Route exact path={ROUTES.WRITE}>
-            <Write />
-          </Route>
-          <Route exact path={ROUTES.HOME}>
-            <Home />
-          </Route>
-          <Redirect to={ROUTES.HOME} />
-        </Switch>
+        <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_UP}>
+          <SignUp />
+        </IsUserRedirect>
+
+        <ProtectedRoute user={user} path={`${ROUTES.DIARYDETAIL}/:id`}>
+          <DiaryDetail />
+        </ProtectedRoute>
+
+        <ProtectedRoute user={user} path={`${ROUTES.EDIT}/:id`}>
+          <Edit />
+        </ProtectedRoute>
+
+        <ProtectedRoute user={user} path={ROUTES.WRITE}>
+          <Write />
+        </ProtectedRoute>
+
+        <ProtectedRoute user={user} path={ROUTES.HOME}>
+          <Home />
+        </ProtectedRoute>
+
+        <Redirect to={ROUTES.HOME} />
       </Router>
     </>
   );

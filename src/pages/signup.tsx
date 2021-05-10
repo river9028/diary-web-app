@@ -90,9 +90,6 @@ const SignUp = () => {
         <AuthForm.Text>
           Already a user? <AuthForm.Link to='/signin'>Sign Up Now.</AuthForm.Link>
         </AuthForm.Text>
-        <AuthForm.TextSmall>
-          This page is protected by Google reCAPTCHA to ensure you&apos;re not a bot. Learn more.
-        </AuthForm.TextSmall>
       </AuthForm>
     </>
   );

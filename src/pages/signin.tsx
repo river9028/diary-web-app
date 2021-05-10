@@ -10,12 +10,11 @@ const SignIn = () => {
   const history = useHistory();
   const { firebase } = useContext(FirebaseContext);
 
-  const [firstName, setFirstName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const isInvalid = firstName === '' || password === '' || emailAddress === '';
+  const isInvalid = password === '' || emailAddress === '';
 
   const handleSignIn = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -83,9 +82,6 @@ const SignIn = () => {
         <AuthForm.Text>
           New to Netflix? <AuthForm.Link to='/signup'>Sign Up Now.</AuthForm.Link>
         </AuthForm.Text>
-        <AuthForm.TextSmall>
-          This page is protected by Google reCAPTCHA to ensure you&apos;re not a bot. Learn more.
-        </AuthForm.TextSmall>
       </AuthForm>
     </>
   );

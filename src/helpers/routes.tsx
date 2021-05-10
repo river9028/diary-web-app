@@ -34,10 +34,11 @@ export const ProtectedRoute: React.FC<RoutesPropsType> = ({ user, children, ...r
       {...rest}
       render={({ location }) => {
         if (user) {
+          console.log('ProtectedRoute user', children);
           return children;
         }
-
         if (!user) {
+          console.log('ProtectedRoute !user');
           return (
             <Redirect
               to={{

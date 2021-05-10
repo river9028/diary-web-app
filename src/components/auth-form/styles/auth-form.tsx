@@ -5,12 +5,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 660px;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: #fff;
   border-radius: 5px;
   box-sizing: border-box;
   width: 100%;
   margin: auto;
-  max-width: 450px;
+  max-width: 800px;
   padding: 60px 68px 40px;
   margin-bottom: 100px;
 `;
@@ -27,14 +27,14 @@ export const Error = styled.div`
 export const Base = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 450px;
+  max-width: 800px;
   width: 100%;
 `;
 
 export const Title = styled.h1`
-  color: #fff;
-  font-size: 32px;
-  font-weight: bold;
+  color: #000;
+  font-size: 25px;
+  font-weight: normal;
   margin-bottom: 28px;
 `;
 
@@ -52,7 +52,7 @@ export const TextSmall = styled.p`
 `;
 
 export const Link = styled(ReachRouterLink)`
-  color: white;
+  color: #000;
   text-decoration: none;
   &:hover {
     text-decoration: underline;
@@ -60,21 +60,26 @@ export const Link = styled(ReachRouterLink)`
 `;
 
 export const Input = styled.input`
-  background: #333;
-  border-radius: 4px;
+  /* background: #333; */
+  /* border-radius: 4px; */
   border: 0;
-  color: white;
+  border-bottom: 1px solid #333;
+  color: #000;
   height: 50px;
   line-height: 50px;
-  padding: 5px 20px;
+  padding: 5px 0;
   margin-bottom: 20px;
   &:last-of-type {
     margin-bottom: 30px;
   }
+
+  :focus {
+    outline: none;
+  }
 `;
 
 export const Submit = styled.button`
-  background: #e50914;
+  background: #1baa3a;
   border-radius: 4px;
   font-size: 16px;
   font-weight: bold;
