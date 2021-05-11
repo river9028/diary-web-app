@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { FaRegCalendarAlt, FaPen } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 import { useHistory } from 'react-router';
 import { Header, DatePicker, TagPicker } from '../components';
 import * as ROUTES from '../constants/routes';
@@ -18,8 +19,8 @@ const HeaderContainer = () => {
   return (
     <>
       <Header>
-        <Header.Group handleClick={() => setShowDatePicker((prev) => !prev)}>
-          <FaRegCalendarAlt />
+        <Header.Group>
+          <FaRegCalendarAlt onClick={() => setShowDatePicker((prev) => !prev)} />
         </Header.Group>
         <Header.Group
           handleClick={() => {
@@ -34,16 +35,63 @@ const HeaderContainer = () => {
         </Header.Group>
         <Header.Group
           handleClick={() => {
-            history.push(ROUTES.WRITE);
+            firebase?.auth().signOut();
           }}
         >
-          <FaPen />
+          <FiLogOut />
         </Header.Group>
       </Header>
 
       <DatePicker showDatePicker={showDatePicker} />
 
       <TagPicker showDatePicker={showDatePicker} />
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            position: 'fixed',
+            maxWidth: '800px',
+            width: 'calc(100vw - 60px)',
+            boxSizing: 'border-box',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9,
+            bottom: 0,
+          }}
+        >
+          <button
+            type='button'
+            onClick={() => {
+              history.push(ROUTES.WRITE);
+            }}
+            style={{
+              margin: '10px',
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '60px',
+              height: '60px',
+              background: 'black',
+              color: 'white',
+              fontSize: '1.414rem',
+              borderRadius: '50%',
+              border: 0,
+            }}
+          >
+            <FaPen />
+          </button>
+        </div>
+      </div>
     </>
   );
 };
