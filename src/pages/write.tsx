@@ -7,8 +7,11 @@ import { Form, Header } from '../components';
 import { Diary } from '../types/type';
 import { FirebaseContext } from '../context/firebase';
 import * as ROUTES from '../constants/routes';
+import { useAuthListener } from '../hooks';
 
 const Write = () => {
+  const user = useAuthListener();
+
   const history = useHistory();
   const [form, setForm] = useState<Diary>({
     date: new Date(),
@@ -17,10 +20,11 @@ const Write = () => {
     tags: [],
     image: null,
     file: null,
+    creatorId: user?.uid,
   });
   const [tag, setTag] = useState('');
   const [attachment, setAttachment] = useState<string | null>(null);
-  const { title, date, contents, tags, image, file } = form;
+  const { title, date, contents, tags, image, file, creatorId } = form;
 
   const { firebase } = useContext(FirebaseContext);
 
@@ -159,6 +163,7 @@ const Write = () => {
               tags,
               image: attachmentURL,
               file,
+              creatorId,
             };
             // console.log(newDiary);
             firebase?.firestore().collection('diary').add(newDiary);

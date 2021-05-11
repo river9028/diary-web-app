@@ -72,7 +72,7 @@ const HeaderContainer = () => {
               history.push(ROUTES.WRITE);
             }}
             style={{
-              margin: '10px',
+              margin: '10px 0',
               position: 'absolute',
               bottom: 0,
               right: 0,

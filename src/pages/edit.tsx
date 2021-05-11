@@ -6,10 +6,12 @@ import { v4 as uuid4 } from 'uuid';
 import { Form, Header } from '../components';
 import { Diary } from '../types/type';
 import * as ROUTES from '../constants/routes';
-import { useContent } from '../hooks';
+import { useAuthListener, useContent } from '../hooks';
 import { FirebaseContext } from '../context/firebase';
 
 const Edit = () => {
+  const user = useAuthListener();
+
   const { id } = useParams<{ id: string }>();
   const { diary, update } = useContent(id);
 
@@ -22,11 +24,12 @@ const Edit = () => {
     tags: [],
     image: null,
     file: null,
+    creatorId: user?.uid,
   });
   const [tag, setTag] = useState('');
   const [attachment, setAttachment] = useState<string | null>(null);
 
-  const { title, contents, tags, image, file } = form;
+  const { title, contents, tags, image, file, creatorId } = form;
 
   const { firebase } = useContext(FirebaseContext);
 
@@ -178,6 +181,7 @@ const Edit = () => {
               tags,
               image: attachmentURL,
               file,
+              creatorId,
             };
             // console.log(newDiary);
             update(newDiary);

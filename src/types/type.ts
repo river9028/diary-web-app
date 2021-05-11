@@ -6,4 +6,5 @@ export interface Diary {
 	tags: string[];
 	image: string | null;
 	file: string | null;
+	creatorId?: string;
 }

@@ -2,10 +2,12 @@ import { useEffect, useState, useContext } from 'react';
 import firebase from 'firebase/app';
 import { FirebaseContext } from '../context/firebase';
 import { Diary } from '../types/type';
+import useAuthListener from './use-auth-list';
 
 export default function useContents(target: string, start: Date, end: Date, tags: string[]) {
 	const [content, setContent] = useState<Diary[]>([]);
 	const { firebase } = useContext(FirebaseContext);
+	const user = useAuthListener();
 
 	useEffect(() => {
 		const isTagsEmpty = (
@@ -29,6 +31,7 @@ export default function useContents(target: string, start: Date, end: Date, tags
 				firebase
 					?.firestore()
 					.collection(target)
+					.where("creatorId", "==", user?.uid)
 					.where('date', '>=', start)
 					.where('date', '<=', end)
 					.orderBy('date'),
@@ -55,6 +58,8 @@ export default function useContents(target: string, start: Date, end: Date, tags
 
 			?.onSnapshot((snapshot) => {
 				try {
+					console.log('load contents...');
+
 					const allContent = snapshot.docs.map((contentObj) => ({
 						...(contentObj.data() as Diary),
 						// ...contentObj.data(),
